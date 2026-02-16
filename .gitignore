@@ -1,0 +1,6 @@
+php/db-connect.php
+log/monitor.log
+*.zip
+*.tmp
+.DS_Store
+
