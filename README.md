@@ -8,8 +8,8 @@ Saját fejlesztésű szerverfigyelő alkalmazás, amely segít nyomon követni w
 - **Dinamikus Dashboard:** Átlátható felület, a monitorozott oldalak aktuális státuszával, válaszidejével és az utolsó ellenőrzés időpontjával.
 - **30 napos statisztika:** Adatok az elérhetőségekről, arányról (Uptime %) és az átlagos válaszidőről.
 - **Hibanapló (Downtime Log):** Lista a korábbi leállásokról és a hozzájuk tartozó HTTP hibakódokról.
-- **Archiválási logika:** A figyel oldalak adatai 30 napig érhetőek el, a törölt oldalak mérési adatai archiválódnak, 60 napig érhetőek el, 
-- **DuckDNS támogatás:** Tartalmaz egy Bash scriptet a dinamikus IP-cím frissítéséhez, hibatűréssel és logolással kiegészítve.
+- **Archiválási logika:** A figyel oldalak adatai 30 napig érhetőek el, a törölt oldalak mérési adatai archiválódnak, 60 napig érhetőek el.
+- **DuckDNS támogatás:** Tartalmaz egy Bash scriptet a dinamikus IP-cím frissítéséhez, hibakezeléssel és naplózással kiegészítve.
 
 ## 🛠️ Technológiai stack
 
@@ -28,7 +28,7 @@ Saját fejlesztésű szerverfigyelő alkalmazás, amely segít nyomon követni w
 
 ## ⏰ Időzített feladatok beállítása (Cron)
 
-A rendszer automatikus működéséhez add hozzá az alábbi sorokat a szerver `crontab`-jához (`crontab -e` parancs):
+Az automatikus működéséhez add hozzá az alábbi sorokat a szerver `crontab`-jához (`crontab -e` parancs):
 
 ```bash
 # Weboldalak ellenőrzése 5 percenként
