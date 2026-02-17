@@ -1,0 +1,9 @@
+# .git mappa tiltása
+RedirectMatch 404 /\.git
+
+# Kényes fájlok tiltása
+<FilesMatch "^(config\.php|\.env|\.gitignore)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
