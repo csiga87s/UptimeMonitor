@@ -92,14 +92,19 @@ $sites = $pdo->query("SELECT * FROM sites")->fetchAll();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($sites as $site): ?>
+            <?php if($sites): foreach ($sites as $site): ?>
             <tr>                
                 <td><?= htmlspecialchars($site['url']) ?></td>
                 <td>
                     <a href="?delete_site=<?= $site['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Biztos törlöd? Az oldalhoz tartozó statisztika archiválásra kerül!')">Törlés</a>
                 </td>
             </tr>
-            <?php endforeach; ?>
+            <?php endforeach;
+            else:?>
+            <td colspan="5" class="align-middle text-center link-danger">
+                    Jelenleg nincs figyelt oldal!                    
+            </td>
+            <?php endif;?>
         </tbody>
     </table>
     <a href="../index.php" class="btn btn-secondary">Vissza a Dashboardra</a>

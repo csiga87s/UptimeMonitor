@@ -38,6 +38,7 @@ $archived = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
         </thead>
         <tbody>                                           
             <?php 
+                if($archived):
                 $current_url = "";
                 $form_index=0;
                 foreach ($archived as $row): 
@@ -79,10 +80,14 @@ $archived = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="text"><?= $fails ?></span>
                             <?php endif; ?>                         
                         </td>                       
-                        <td><?= $row['deleted_at']?></td>
-                        
+                        <td><?= $row['deleted_at']?></td>                        
                     </tr>
-            <?php endforeach; ?>            
+                <?php endforeach;
+                else:?>
+                    <td colspan="5" class="align-middle text-center link-danger">
+                        Jelenleg nincs archív/törölt oldal! <br />                        
+                    </td>            
+                <?php endif;?>
         </tbody>
     </table>
     <a href="../index.php" class="btn btn-secondary">Vissza a Dashboardra</a>

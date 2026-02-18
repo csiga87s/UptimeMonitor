@@ -42,7 +42,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($results as $row): ?>
+                    <?php 
+                    if($results): foreach ($results as $row): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['url']); ?></td>
                         <td>
@@ -56,7 +57,15 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $row['response_time']; ?> mp</td>
                         <td><?php echo $row['checked_at']; ?></td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php 
+                        endforeach;
+                    else:?>
+                        <td colspan="5" class="align-middle text-center link-danger">
+                            Jelenleg nincs figyelt oldal! <br />
+                            Az oldalak szerkesztésénél tudsz hozzáadni.
+                        </td>
+                    <?php 
+                    endif;?>
                 </tbody>
             </table>
         </div>

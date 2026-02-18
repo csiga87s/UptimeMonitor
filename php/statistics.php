@@ -41,7 +41,8 @@ $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($stats as $row): 
+                    <?php 
+                    if($stats): foreach ($stats as $row): 
                         $uptime = ($row['total_checks'] > 0) ? round(($row['up_count'] / $row['total_checks']) * 100, 2) : 0;  
                         $fails = $row['total_checks'] - $row['up_count'];                  
                         // Színkódolás az uptime alapján
@@ -81,7 +82,12 @@ $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endif; ?>                 
                         </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                    else:?> <td colspan="5" class="align-middle text-center link-danger">
+                        Jelenleg nincs figyelt oldal! <br />
+                        Az oldalak szerkesztésénél tudsz hozzáadni.
+                        </td>
+                    <?php endif;?>
                 </tbody>
             </table>
         </div>
