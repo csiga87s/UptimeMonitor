@@ -1,18 +1,30 @@
 <?php
 require_once ('db-connect.php');
 
-$site_id=$_GET['id'];
+$id=$_POST['id'];
+$is_archive=$_POST['archive'];
 
-// Lekérjük az összes hibás mérést
-$query = "SELECT s.url, i.status_code, i.checked_at 
-          FROM incidents i
-          JOIN sites s ON i.site_id = s.id
-          WHERE i.is_up = 0 AND s.id = ?
-          ORDER BY s.url, i.checked_at ASC";
-
-$stmt = $pdo->prepare($query);
-$stmt->execute([$site_id]);
-$errors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Lekérjük az összes hibás mérést, ha a statisticsból kérték akkor incidents és sites-ból
+// ha az acvhiv oldalról, akkor az archiv adatok kellenek, akkor a incidens_old és a site_old-ból
+if($is_archive==0){
+    $query = "SELECT s.url, i.status_code, i.checked_at 
+            FROM incidents i
+            JOIN sites s ON i.site_id = s.id
+            WHERE i.is_up = 0 AND s.id = ?
+            ORDER BY s.url, i.checked_at ASC";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$id]);
+    $errors = $stmt->fetchAll(PDO::FETCH_ASSOC);    
+}else{
+    $query = "SELECT s.url, i.status_code, i.checked_at 
+            FROM incidents_old i
+            JOIN sites_old s ON i.site_id = s.id
+            WHERE i.is_up = 0 AND s.id = ?
+            ORDER BY s.url, i.checked_at ASC";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$id]);
+    $errors = $stmt->fetchAll(PDO::FETCH_ASSOC);   
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +65,10 @@ $errors = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <br />
+    <?php if($is_archive==0):?>
     <a href="statistics.php" class="btn btn-secondary">Vissza </a>
+    <?php else: ?>
+    <a href="archive.php" class="btn btn-secondary">Vissza az archiv adatokhoz </a>  
+    <?php endif; ?>
 </div>
 </body>

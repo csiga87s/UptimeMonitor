@@ -43,6 +43,9 @@ Az automatikus működéséhez add hozzá az alábbi sorokat a szerver `crontab`
 A projektben az alábbi funkciók implementálása várható a következő verziókban:
 
 1. **Archív hibanapló:** Jelenleg az archivált adatoknál csak az összesített statisztika látható. Várható további nézet, ahol a törölt oldalak  hibakódjai is láthatóak, jelenleg csak az látszik h hány hibakód volt az adott időszakban.
+
+Update (2026.02.18): Az archív adatok között is megtekinthető, hogy a korábban figyelt időszakban mikor és mi volt a hikód.
+
 2. **Automatikus értesítési rendszer:** Telegram Bot vagy E-mail integráció, amely azonnali riasztást küld, ha egy figyelt oldal két egymást követő mérés során is elérhetetlen.
 
 ---

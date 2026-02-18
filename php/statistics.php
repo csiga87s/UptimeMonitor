@@ -47,15 +47,8 @@ $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         // Színkódolás az uptime alapján
                         $bg_class = ($uptime >= 99) ? 'bg-success' : ($uptime >= 95 ? 'bg-warning text-dark' : 'bg-danger');?>
                     <tr>
-                        <td> <!-- Ha nem 100% az elérhetőség, akkor az URL egy link legyen, ahol meg 
-                                lehet nézni, mikor volt az és milyen hibakóddal -->
-                        <?php if($uptime<100): ?> 
-                            <a href="downtime.php?id=<?=$row['id'] ?>"
-                            class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                            <?= htmlspecialchars($row['url']) ?></a>
-                        <?php else: ?>
-                            <span class="text"><?= htmlspecialchars($row['url']) ?></span>
-                        <?php endif; ?>
+                        <td> 
+                            <span class="text"><?= $row['url'] ?></span>
                         </td>
                         <td class="align-middle">
                             <span class="badge <?= $bg_class ?> p-2" style="font-size: 0.9rem;">
@@ -69,9 +62,24 @@ $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </td>
                         <td class="align-middle ">
                             <span class="text"><?= $row['total_checks'] ?></span> / 
-                            <span class="text-danger"><?= $fails; ?></span>                   
+                            <!-- Ha nem 100% az elérhetőség, akkor a hibák száma egy link legyen, ahol meg 
+                                lehet nézni, mikor volt az és milyen hibakóddal -->
+                        <?php if($uptime<100): ?> 
+                            <!--a javasrcriopt ami kattintás esetén megkeresi a post-form nevű formot 
+                                ami elküldi az adatokat -->
+                            <a href="javascript:void(0);" 
+                                class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+                                onclick="document.getElementById('post-form').submit();">
+                                <?=$fails?></a>
+                            <!-- A rejtett űrlap az adatokkal -->
+                            <form id="post-form" action="downtime.php" method="POST" style="display: none;">
+                                <input type="hidden" name="id" value="<?=$row['id']?>">
+                                <input type="hidden" name="archive" value="0">
+                            </form>
+                        <?php else: ?>
+                            <span class="text"><?= $fails ?></span>
+                        <?php endif; ?>                 
                         </td>
-
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

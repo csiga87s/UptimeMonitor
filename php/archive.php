@@ -39,15 +39,17 @@ $archived = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
         <tbody>                                           
             <?php 
                 $current_url = "";
+                $form_index=0;
                 foreach ($archived as $row): 
+                    $form_index++;
                     $uptime = ($row['total_checks'] > 0) ? round(($row['up_count'] / $row['total_checks']) * 100, 2) : 0;
                     $fails = $row['total_checks'] - $row['up_count'];
                     // Színkódolás az uptime alapján
                     $bg_class = ($uptime >= 99) ? 'bg-success' : ($uptime >= 95 ? 'bg-warning text-dark' : 'bg-danger');                    
-                    if ($current_url != $row['url']):              
-                    $current_url = $row['url'];?>
+                      if ($current_url != $row['url']):              
+                        $current_url = $row['url'];?>
                     <tr class="table-light">
-                    <td colspan="6"><?= htmlspecialchars($current_url) ?></td>                         
+                        <td colspan="6"><?= htmlspecialchars($current_url) ?></td>                         
                     </tr>                
                     <?php endif; ?>   
                     <tr>              
@@ -59,11 +61,26 @@ $archived = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
                             </span>
                         </td>
                         <td><?= $row['avg_response_time'] ?> s </td>
-                        <td class="align-middle ">
+                        <td class="align-middle ">                            
                             <span class="text"><?= $row['total_checks'] ?></span> / 
-                            <span class="text-danger"><?= $fails; ?></span>                   
+                            <?php if($uptime<100): ?>                              
+                                <!--a javasrcriopt ami kattintás esetén megkeresi a post-form nevű formot 
+                                ami elküldi az adatokat -->
+                                <a href="javascript:void(0);" 
+                                class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+                                onclick="document.getElementById('form-<?=$form_index?>').submit();">
+                                <?=$fails?></a>
+                                <!-- A rejtett űrlap az adatokkal -->
+                                <form id="form-<?=$form_index?>" action="downtime.php" method="POST" style="display: none;">
+                                    <input type="hidden" name="id" value="<?=$row['id']?>">
+                                    <input type="hidden" name="archive" value="1">
+                                </form>
+                            <?php else: ?>
+                                <span class="text"><?= $fails ?></span>
+                            <?php endif; ?>                         
                         </td>                       
-                        <td><?= $row['deleted_at'] ?></td>
+                        <td><?= $row['deleted_at']?></td>
+                        
                     </tr>
             <?php endforeach; ?>            
         </tbody>

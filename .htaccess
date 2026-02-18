@@ -7,3 +7,7 @@ RedirectMatch 404 /\.git
     Deny from all
 </FilesMatch>
 
+AuthType Basic
+AuthName "Belépés szükséges"
+AuthUserFile /etc/apache2/.htpasswd
+Require valid-user
